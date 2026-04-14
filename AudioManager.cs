@@ -10,12 +10,10 @@ public class AudioManager : MonoBehaviour
     [Header("Music")]
     [SerializeField] private AudioSource musicSource;
 
-    // Object pool to reuse SFX AudioSources instead of destroying/instantiating them
     private ObjectPool<AudioSource> sfxPool;
 
     private void Awake()
     {
-        // Implement Singleton pattern
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -49,6 +47,7 @@ public class AudioManager : MonoBehaviour
     {
         if (audioData == null || audioData.clip == null) return;
         
+        musicSource.outputAudioMixerGroup = audioData.mixerGroup; // Added: Apply Mixer Group
         musicSource.clip = audioData.clip;
         musicSource.volume = audioData.volume;
         musicSource.pitch = audioData.pitch;
@@ -62,11 +61,11 @@ public class AudioManager : MonoBehaviour
 
         AudioSource source = sfxPool.Get();
         
-        // Setup spatial positioning for 3D sound, or 2D if no position is passed
         source.transform.position = position;
         source.spatialBlend = position == default ? 0f : 1f; 
 
         // Apply ScriptableObject data
+        source.outputAudioMixerGroup = audioData.mixerGroup; // Added: Apply Mixer Group
         source.clip = audioData.clip;
         source.volume = audioData.volume;
         source.loop = audioData.loop;
@@ -76,7 +75,6 @@ public class AudioManager : MonoBehaviour
 
         source.Play();
 
-        // If it's not a looping sound, automatically return it to the pool when finished
         if (!source.loop)
         {
             StartCoroutine(ReturnToPoolAfterDelay(source, audioData.clip.length));
