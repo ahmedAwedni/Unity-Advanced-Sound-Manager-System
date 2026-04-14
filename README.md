@@ -52,7 +52,7 @@ AudioManager.Instance.PlaySFX(myExplosionAsset, transform.position);
 ## 🚀 Possible Extensions
 
 * **Music Crossfading:** Upgrade the "PlayMusic" method with a Coroutine that slowly turns down the volume of the old track while turning up the new one.
-* **Audio Mixers:** Add a field for "UnityEngine.Audio.AudioMixerGroup" inside the "AudioData" script to route sounds to specific Master/SFX/Music buses.
+* ~~**Audio Mixers:** Add a field for "UnityEngine.Audio.AudioMixerGroup" inside the "AudioData" script to route sounds to specific Master/SFX/Music buses.~~ [ADDED]
 * **Sound Playlists:** Create an "AudioPlaylist" ScriptableObject that holds an array of "AudioData" and randomly selects one to play (great for varied footstep types).
 
 ---
